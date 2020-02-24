@@ -1,5 +1,5 @@
 ---
-id: version-0.58-stylesheet
+id: version-0.59-stylesheet
 title: StyleSheet
 original_id: stylesheet
 ---
@@ -48,7 +48,6 @@ Code quality:
 
 - [`hairlineWidth`](stylesheet.md#hairlinewidth)
 - [`absoluteFill`](stylesheet.md#absolutefill)
-- [`absoluteFillObject`](stylesheet.md#absolutefillobject)
 
 ---
 
