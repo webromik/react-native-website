@@ -1,12 +1,12 @@
 ---
-id: version-0.58-textinput
+id: version-0.59-textinput
 title: TextInput
 original_id: textinput
 ---
 
 A foundational component for inputting text into the app via a keyboard. Props provide configurability for several features, such as auto-correction, auto-capitalization, placeholder text, and different keyboard types, such as a numeric keypad.
 
-The least complex use case is to plop down a `TextInput` and subscribe to the `onChangeText` events to read the user input. There are also other events, such as `onSubmitEditing` and `onFocus` that can be subscribed to. A small example:
+The most basic use case is to plop down a `TextInput` and subscribe to the `onChangeText` events to read the user input. There are also other events, such as `onSubmitEditing` and `onFocus` that can be subscribed to. A minimal example:
 
 ```SnackPlayer
 import React, { Component } from 'react';
@@ -110,6 +110,7 @@ Note that on Android performing text selection in input can change app's activit
 * [`disableFullscreenUI`](textinput.md#disablefullscreenui)
 * [`editable`](textinput.md#editable)
 * [`enablesReturnKeyAutomatically`](textinput.md#enablesreturnkeyautomatically)
+* [`importantForAutofill`](textinput.md#importantForAutofill)
 * [`inlineImageLeft`](textinput.md#inlineimageleft)
 * [`inlineImagePadding`](textinput.md#inlineimagepadding)
 * [`keyboardAppearance`](textinput.md#keyboardappearance)
@@ -133,6 +134,7 @@ Note that on Android performing text selection in input can change app's activit
 * [`placeholderTextColor`](textinput.md#placeholdertextcolor)
 * [`returnKeyLabel`](textinput.md#returnkeylabel)
 * [`returnKeyType`](textinput.md#returnkeytype)
+* [`rejectResponderTermination`](textinput.md#rejectrespondertermination)
 * [`scrollEnabled`](textinput.md#scrollenabled)
 * [`secureTextEntry`](textinput.md#securetextentry)
 * [`selection`](textinput.md#selection)
@@ -275,7 +277,7 @@ Possible values for `dataDetectorTypes` are:
 
 ### `defaultValue`
 
-Provides an initial value that will change when the user starts typing. Useful for less complex use-cases where you do not want to deal with listening to events and updating the value prop to keep the controlled state in sync.
+Provides an initial value that will change when the user starts typing. Useful for use-cases where you do not want to deal with listening to events and updating the value prop to keep the controlled state in sync.
 
 | Type   | Required |
 | ------ | -------- |
@@ -310,6 +312,22 @@ If `true`, the keyboard disables the return key when there is no text and automa
 | Type | Required | Platform |
 | ---- | -------- | -------- |
 | bool | No       | iOS      |
+
+---
+
+### `importantForAutofill`
+
+Say the system whether the individual fields in your app should be included in a view structure for autofill purposes on Android API Level 26+, possible values are `auto`, `no`, `noExcludeDescendants`, `yes`, `yesExcludeDescendants`. The default value is `auto`.
+
+- `auto`: Let the Android System use its heuristics to determine if the view is important for autofill.
+- `no`: This view isn't important for autofill.
+- `noExcludeDescendants`: This view and its children aren't important for autofill.
+- `yes`: This view is important for autofill.
+- `yesExcludeDescendants`: This view is important for autofill, but its children aren't important for autofill.
+
+| Type                                                                       | Required | Platform |
+| -------------------------------------------------------------------------- | -------- | -------- |
+| enum('auto', 'no', 'noExcludeDescendants', 'yes', 'yesExcludeDescendants') | No       | Android  |
 
 ---
 
@@ -353,6 +371,8 @@ Determines the color of the keyboard.
 
 Determines which keyboard to open, e.g.`numeric`.
 
+See screenshots of all the types [here](http://lefkowitz.me/2018/04/30/visual-guide-to-react-native-textinput-keyboardtype-options/).
+
 The following values work across platforms:
 
 - `default`
@@ -393,9 +413,9 @@ Specifies largest possible scale a font can reach when `allowFontScaling` is ena
 - `0`: no max, ignore parent/global default
 - `>= 1`: sets the `maxFontSizeMultiplier` of this node to this value
 
-| Type   | Required | Platform |
-| ------ | -------- | -------- |
-| number | No       | iOS      |
+| Type   | Required |
+| ------ | -------- |
+| number | No       |
 
 ---
 
@@ -533,7 +553,7 @@ Callback that is called when the text input selection is changed. This will be c
 
 ### `onSubmitEditing`
 
-Callback that is called when the text input's submit button is pressed. Invalid if `multiline={true}` is specified.
+Callback that is called when the text input's submit button is pressed with the argument `{nativeEvent: {text, eventCount, target}}`.
 
 | Type     | Required |
 | -------- | -------- |
@@ -606,6 +626,18 @@ The following values work on iOS only:
 | Type                                                                                                                              | Required |
 | --------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | enum('done', 'go', 'next', 'search', 'send', 'none', 'previous', 'default', 'emergency-call', 'google', 'join', 'route', 'yahoo') | No       |
+
+### `rejectResponderTermination`
+
+Determines how the return key should look. On Android you can also use `returnKeyLabel`.
+
+_iOS Only_
+
+If `true`, allows TextInput to pass touch events to the parent component. This allows components such as SwipeableListView to be swipeable from the TextInput on iOS, as is the case on Android by default.
+
+| Type | Required | Platform |
+| ---- | -------- | -------- |
+| bool | No       | iOS      |
 
 ---
 
