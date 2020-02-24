@@ -1,12 +1,12 @@
 ---
-id: version-0.57-textinput
+id: version-0.58-textinput
 title: TextInput
 original_id: textinput
 ---
 
 A foundational component for inputting text into the app via a keyboard. Props provide configurability for several features, such as auto-correction, auto-capitalization, placeholder text, and different keyboard types, such as a numeric keypad.
 
-A basic use case is to plop down a `TextInput` and subscribe to the `onChangeText` events to read the user input. There are also other events, such as `onSubmitEditing` and `onFocus` that can be subscribed to. A minimal example:
+The least complex use case is to plop down a `TextInput` and subscribe to the `onChangeText` events to read the user input. There are also other events, such as `onSubmitEditing` and `onFocus` that can be subscribed to. A small example:
 
 ```SnackPlayer
 import React, { Component } from 'react';
@@ -114,6 +114,7 @@ Note that on Android performing text selection in input can change app's activit
 * [`inlineImagePadding`](textinput.md#inlineimagepadding)
 * [`keyboardAppearance`](textinput.md#keyboardappearance)
 * [`keyboardType`](textinput.md#keyboardtype)
+* [`maxFontSizeMultiplier`](text.md#maxfontsizemultiplier)
 * [`maxLength`](textinput.md#maxlength)
 * [`multiline`](textinput.md#multiline)
 * [`numberOfLines`](textinput.md#numberoflines)
@@ -274,7 +275,7 @@ Possible values for `dataDetectorTypes` are:
 
 ### `defaultValue`
 
-Provides an initial value that will change when the user starts typing. Useful for basic use-cases where you do not want to deal with listening to events and updating the value prop to keep the controlled state in sync.
+Provides an initial value that will change when the user starts typing. Useful for less complex use-cases where you do not want to deal with listening to events and updating the value prop to keep the controlled state in sync.
 
 | Type   | Required |
 | ------ | -------- |
@@ -384,6 +385,20 @@ The following values work on Android only:
 
 ---
 
+### `maxFontSizeMultiplier`
+
+Specifies largest possible scale a font can reach when `allowFontScaling` is enabled. Possible values:
+
+- `null/undefined` (default): inherit from the parent node or the global default (0)
+- `0`: no max, ignore parent/global default
+- `>= 1`: sets the `maxFontSizeMultiplier` of this node to this value
+
+| Type   | Required | Platform |
+| ------ | -------- | -------- |
+| number | No       | iOS      |
+
+---
+
 ### `maxLength`
 
 Limits the maximum number of characters that can be entered. Use this instead of implementing the logic in JS to avoid flicker.
@@ -396,7 +411,7 @@ Limits the maximum number of characters that can be entered. Use this instead of
 
 ### `multiline`
 
-If `true`, the text input can be multiple lines. The default value is `false`.
+If `true`, the text input can be multiple lines. The default value is `false`. It is important to note that this aligns the text to the top on iOS, and centers it on Android. Use with `textAlignVertical` set to `top` for the same behavior in both platforms.
 
 | Type | Required |
 | ---- | -------- |
@@ -426,7 +441,7 @@ Callback that is called when the text input is blurred.
 
 ### `onChange`
 
-Callback that is called when the text input's text changes.
+Callback that is called when the text input's text changes. This will be called with `{ nativeEvent: { eventCount, target, text} }`
 
 | Type     | Required |
 | -------- | -------- |
@@ -436,7 +451,7 @@ Callback that is called when the text input's text changes.
 
 ### `onChangeText`
 
-Callback that is called when the text input's text changes. Changed text is passed as an argument to the callback handler.
+Callback that is called when the text input's text changes. Changed text is passed as a single string argument to the callback handler.
 
 | Type     | Required |
 | -------- | -------- |
@@ -468,7 +483,7 @@ Callback that is called when text input ends.
 
 ### `onFocus`
 
-Callback that is called when the text input is focused.
+Callback that is called when the text input is focused. This is called with `{ nativeEvent: { target } }`.
 
 | Type     | Required |
 | -------- | -------- |
@@ -488,7 +503,7 @@ Callback that is called when a key is pressed. This will be called with `{ nativ
 
 ### `onLayout`
 
-Invoked on mount and layout changes with `{x, y, width, height}`.
+Invoked on mount and layout changes with `{ nativeEvent: {layout: {x, y, width, height}, target } }`.
 
 | Type     | Required |
 | -------- | -------- |
@@ -678,6 +693,8 @@ Give the keyboard and the system information about the expected semantic meaning
 
 For iOS 11+ you can set `textContentType` to `username` or `password` to enable autofill of login details from the device keychain.
 
+For iOS 12+ `newPassword` can be used to indicate a new password input the user may want to save in the keychain, and `oneTimeCode` can be used to indicate that a field can be autofilled by a code arriving in an SMS.
+
 To disable autofill, set `textContentType` to `none`.
 
 Possible values for `textContentType` are:
@@ -708,6 +725,8 @@ Possible values for `textContentType` are:
 - `telephoneNumber`
 - `username`
 - `password`
+- `newPassword`
+- `oneTimeCode`
 
 | Type                                                                                                                                                                                                                                                                                                                                                                                                       | Required | Platform |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------- |
@@ -781,7 +800,12 @@ Removes all text from the `TextInput`.
 ### `isFocused()`
 
 ```jsx
-isFocused():
+isFocused();
 ```
 
 Returns `true` if the input is currently focused; `false` otherwise.
+
+# Known issues
+
+- [react-native#19096](https://github.com/facebook/react-native/issues/19096): Doesn't support Android's `onKeyPreIme`.
+- [react-native#19366](https://github.com/facebook/react-native/issues/19366): Calling .focus() after closing Android's keyboard via back button doesn't bring keyboard up again.
