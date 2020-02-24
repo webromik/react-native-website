@@ -1,5 +1,5 @@
 ---
-id: version-0.57-view
+id: version-0.59-view
 title: View
 original_id: view
 ---
@@ -56,6 +56,7 @@ For `View` responder props (e.g., `onResponderMove`), the synthetic touch event 
 - [`onAccessibilityTap`](view.md#onaccessibilitytap)
 - [`onLayout`](view.md#onlayout)
 - [`onMagicTap`](view.md#onmagictap)
+- [`onAccessibilityEscape`](view.md#onaccessibilityescape)
 - [`onMoveShouldSetResponder`](view.md#onmoveshouldsetresponder)
 - [`onMoveShouldSetResponderCapture`](view.md#onmoveshouldsetrespondercapture)
 - [`onResponderGrant`](view.md#onrespondergrant)
@@ -175,6 +176,16 @@ This event is fired immediately once the layout has been calculated, but the new
 ### `onMagicTap`
 
 When `accessible` is `true`, the system will invoke this function when the user performs the magic tap gesture.
+
+| Type     | Required |
+| -------- | -------- |
+| function | No       |
+
+---
+
+### `onAccessibilityEscape`
+
+When `accessible` is `true`, the system will invoke this function when the user performs the escape gesture.
 
 | Type     | Required |
 | -------- | -------- |
@@ -338,7 +349,7 @@ Controls whether the `View` can be the target of touch events.
 
 ### `removeClippedSubviews`
 
-This is a unique performance property exposed by `RCTView` and is useful for scrolling content when there are many subviews, most of which are offscreen. For this property to be effective, it must be applied to a view that contains many subviews that extend outside its bound. The subviews must also have `overflow: hidden`, as should the containing view (or one of its superviews).
+This is a reserved performance property exposed by `RCTView` and is useful for scrolling content when there are many subviews, most of which are offscreen. For this property to be effective, it must be applied to a view that contains many subviews that extend outside its bound. The subviews must also have `overflow: hidden`, as should the containing view (or one of its superviews).
 
 | Type | Required |
 | ---- | -------- |
@@ -436,9 +447,9 @@ Whether this `View` needs to rendered offscreen and composited with an alpha in 
 
 Rendering offscreen to preserve correct alpha behavior is extremely expensive and hard to debug for non-native developers, which is why it is not turned on by default. If you do need to enable this property for an animation, consider combining it with renderToHardwareTextureAndroid if the view **contents** are static (i.e. it doesn't need to be redrawn each frame). If that property is enabled, this View will be rendered off-screen once, saved in a hardware texture, and then composited onto the screen with an alpha each frame without having to switch rendering targets on the GPU.
 
-| Type | Required | Platform |
-| ---- | -------- | -------- |
-| bool | No       | Android  |
+| Type | Required |
+| ---- | -------- |
+| bool | No       |
 
 ---
 
@@ -494,7 +505,7 @@ You can provide one state, no state, or both states. The states must be passed i
 
 Possible values for `AccessibilityStates` are:
 
-- `'selected'` - The element is in a selcted state.
+- `'selected'` - The element is in a selected state.
 - `'disabled'` - The element is in a disabled state.
 
 | Type                        | Required |
