@@ -1,5 +1,5 @@
 ---
-id: version-0.57-text-style-props
+id: version-0.58-text-style-props
 title: Text Style Props
 original_id: text-style-props
 ---
@@ -152,9 +152,9 @@ Set to `false` to remove extra font padding intended to make space for certain a
 
 ### `letterSpacing`
 
-| Type   | Required | Platform |
-| ------ | -------- | -------- |
-| number | No       | iOS      |
+| Type   | Required | Platform            |
+| ------ | -------- | ------------------- |
+| number | No       | iOS, Android >= 5.0 |
 
 ---
 
