@@ -1,5 +1,5 @@
 ---
-id: version-0.58-text
+id: version-0.59-text
 title: Text
 original_id: text
 ---
@@ -86,7 +86,7 @@ Behind the scenes, React Native converts this to a flat `NSAttributedString` or 
 
 ## Containers
 
-The `<Text>` element is particular relative to layout: everything inside is no longer using the flexbox layout but using text layout. This means that elements inside of a `<Text>` are no longer rectangles, but wrap when they see the end of the line.
+The `<Text>` element is unique relative to layout: everything inside is no longer using the flexbox layout but using text layout. This means that elements inside of a `<Text>` are no longer rectangles, but wrap when they see the end of the line.
 
 ```jsx
 <Text>
@@ -109,7 +109,7 @@ The `<Text>` element is particular relative to layout: everything inside is no l
 // |First part and|
 // |second part   |
 
-// the will will flow in its own block
+// otherwise, the text will flow in its own block
 // |First part |
 // |and        |
 // |second part|
@@ -145,7 +145,7 @@ In React Native, we are more strict about it: **you must wrap all the text nodes
 </View>
 ```
 
-You also lose the ability to set up a default font for an entire subtree. The recommended way to use consistent fonts and sizes across your application is to create a component `MyAppText` that includes them and use this component across your app. You can also use this component to make more specific components like `MyAppHeaderText` for other kinds of text.
+You also lose the ability to set up a default font for an entire subtree. Meanwhile, `fontFamily` only accepts a single font name, which is different from `font-family` in CSS. The recommended way to use consistent fonts and sizes across your application is to create a component `MyAppText` that includes them and use this component across your app. You can also use this component to make more specific components like `MyAppHeaderText` for other kinds of text.
 
 ```jsx
 <View>
@@ -364,9 +364,9 @@ Specifies largest possible scale a font can reach when `allowFontScaling` is ena
 - `0`: no max, ignore parent/global default
 - `>= 1`: sets the `maxFontSizeMultiplier` of this node to this value
 
-| Type   | Required | Platform |
-| ------ | -------- | -------- |
-| number | No       | iOS      |
+| Type   | Required |
+| ------ | -------- |
+| number | No       |
 
 ---
 
