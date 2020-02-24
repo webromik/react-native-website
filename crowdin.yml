@@ -1,0 +1,3 @@
+files:
+  - source: /**/*.md
+    translation: /translations/%locale%/%file_name%_%locale%.json
