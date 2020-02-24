@@ -1,5 +1,5 @@
 ---
-id: version-0.57-keyboardavoidingview
+id: version-0.58-keyboardavoidingview
 title: KeyboardAvoidingView
 original_id: keyboardavoidingview
 ---
@@ -8,12 +8,12 @@ It is a component to solve the common problem of views that need to move out of 
 
 Example usage:
 
-```
-import { KeyboardAvoidingView } from 'react-native';
+```jsx
+import {KeyboardAvoidingView} from 'react-native';
 
 <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
   ... your UI ...
-</KeyboardAvoidingView>
+</KeyboardAvoidingView>;
 ```
 
 ### Example
