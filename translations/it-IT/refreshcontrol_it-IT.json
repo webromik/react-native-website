@@ -1,5 +1,5 @@
 ---
-id: version-0.57-refreshcontrol
+id: version-0.58-refreshcontrol
 title: RefreshControl
 original_id: refreshcontrol
 ---
@@ -9,6 +9,8 @@ This component is used inside a ScrollView or ListView to add pull to refresh fu
 ### Usage example
 
 ```jsx
+import { ScrollView, RefreshControl } from 'react-native';
+
 class RefreshableList extends Component {
   constructor(props) {
     super(props);
